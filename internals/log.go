@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	"github.com/gofaith/go-zero/core/logx"
-	"github.com/gofaith/go-zero/rest/httpx"
+	"github.com/gofaith/rest/httpx"
 )
 
 const LogContext = "request_logs"

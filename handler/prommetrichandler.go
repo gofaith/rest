@@ -7,7 +7,7 @@ import (
 
 	"github.com/gofaith/go-zero/core/metric"
 	"github.com/gofaith/go-zero/core/timex"
-	"github.com/gofaith/go-zero/rest/internal/security"
+	"github.com/gofaith/rest/internals/security"
 )
 
 const serverNamespace = "http_server"

@@ -8,7 +8,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofaith/go-zero/core/logx"
-	"github.com/gofaith/go-zero/rest/token"
+	"github.com/gofaith/rest/token"
 )
 
 const (

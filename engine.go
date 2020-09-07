@@ -10,9 +10,9 @@ import (
 	"github.com/gofaith/go-zero/core/codec"
 	"github.com/gofaith/go-zero/core/load"
 	"github.com/gofaith/go-zero/core/stat"
-	"github.com/gofaith/go-zero/rest/handler"
-	"github.com/gofaith/go-zero/rest/httpx"
-	"github.com/gofaith/go-zero/rest/router"
+	"github.com/gofaith/rest/handler"
+	"github.com/gofaith/rest/httpx"
+	"github.com/gofaith/rest/router"
 	"github.com/justinas/alice"
 )
 

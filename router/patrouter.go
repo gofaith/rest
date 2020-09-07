@@ -7,8 +7,7 @@ import (
 	"strings"
 
 	"github.com/gofaith/go-zero/core/search"
-	"github.com/gofaith/go-zero/rest/httpx"
-	"github.com/gofaith/go-zero/rest/internal/context"
+	"github.com/gofaith/rest/internals/context"
 )
 
 const (
@@ -22,14 +21,20 @@ var (
 )
 
 type PatRouter struct {
-	trees    map[string]*search.Tree
-	notFound http.Handler
+	prehandlers []func(w http.ResponseWriter, r *http.Request) bool
+	trees       map[string]*search.Tree
+	notFound    http.Handler
 }
 
-func NewPatRouter() httpx.Router {
+func NewPatRouter() *PatRouter {
 	return &PatRouter{
 		trees: make(map[string]*search.Tree),
 	}
+}
+
+func (pr *PatRouter) Use(prehandler func(w http.ResponseWriter, r *http.Request) bool) *PatRouter {
+	pr.prehandlers = append(pr.prehandlers, prehandler)
+	return pr
 }
 
 func (pr *PatRouter) Handle(method, reqPath string, handler http.Handler) error {
@@ -52,6 +57,11 @@ func (pr *PatRouter) Handle(method, reqPath string, handler http.Handler) error 
 }
 
 func (pr *PatRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	for _, pre := range pr.prehandlers {
+		if pre(w, r) {
+			return
+		}
+	}
 	reqPath := path.Clean(r.URL.Path)
 	if tree, ok := pr.trees[r.Method]; ok {
 		if result, ok := tree.Search(reqPath); ok {

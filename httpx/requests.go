@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gofaith/go-zero/core/mapping"
-	"github.com/gofaith/go-zero/rest/internal/context"
+	"github.com/gofaith/rest/internals/context"
 )
 
 const (

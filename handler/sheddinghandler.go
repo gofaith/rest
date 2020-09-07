@@ -7,8 +7,8 @@ import (
 	"github.com/gofaith/go-zero/core/load"
 	"github.com/gofaith/go-zero/core/logx"
 	"github.com/gofaith/go-zero/core/stat"
-	"github.com/gofaith/go-zero/rest/httpx"
-	"github.com/gofaith/go-zero/rest/internal/security"
+	"github.com/gofaith/rest/httpx"
+	"github.com/gofaith/rest/internals/security"
 )
 
 const serviceType = "api"
