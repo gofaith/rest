@@ -41,7 +41,7 @@ func (w *LoggedResponseWriter) WriteHeader(code int) {
 func LogHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		timer := utils.NewElapsedTimer()
-		logs := new(internal.LogCollector)
+		logs := new(internals.LogCollector)
 		lrw := LoggedResponseWriter{
 			w:    w,
 			r:    r,
@@ -50,7 +50,7 @@ func LogHandler(next http.Handler) http.Handler {
 
 		var dup io.ReadCloser
 		r.Body, dup = iox.DupReadCloser(r.Body)
-		next.ServeHTTP(&lrw, r.WithContext(context.WithValue(r.Context(), internal.LogContext, logs)))
+		next.ServeHTTP(&lrw, r.WithContext(context.WithValue(r.Context(), internals.LogContext, logs)))
 		r.Body = dup
 		logBrief(r, lrw.code, timer, logs)
 	})
@@ -93,8 +93,8 @@ func DetailedLogHandler(next http.Handler) http.Handler {
 
 		var dup io.ReadCloser
 		r.Body, dup = iox.DupReadCloser(r.Body)
-		logs := new(internal.LogCollector)
-		next.ServeHTTP(lrw, r.WithContext(context.WithValue(r.Context(), internal.LogContext, logs)))
+		logs := new(internals.LogCollector)
+		next.ServeHTTP(lrw, r.WithContext(context.WithValue(r.Context(), internals.LogContext, logs)))
 		r.Body = dup
 		logDetails(r, lrw, timer, logs)
 	})
@@ -109,7 +109,7 @@ func dumpRequest(r *http.Request) string {
 	}
 }
 
-func logBrief(r *http.Request, code int, timer *utils.ElapsedTimer, logs *internal.LogCollector) {
+func logBrief(r *http.Request, code int, timer *utils.ElapsedTimer, logs *internals.LogCollector) {
 	var buf bytes.Buffer
 	duration := timer.Duration()
 	buf.WriteString(fmt.Sprintf("%d - %s - %s - %s - %s",
@@ -137,7 +137,7 @@ func logBrief(r *http.Request, code int, timer *utils.ElapsedTimer, logs *intern
 }
 
 func logDetails(r *http.Request, response *DetailLoggedResponseWriter, timer *utils.ElapsedTimer,
-	logs *internal.LogCollector) {
+	logs *internals.LogCollector) {
 	var buf bytes.Buffer
 	duration := timer.Duration()
 	buf.WriteString(fmt.Sprintf("%d - %s - %s\n=> %s\n",

@@ -25,7 +25,7 @@ func TestLogHandler(t *testing.T) {
 	for _, logHandler := range handlers {
 		req := httptest.NewRequest(http.MethodGet, "http://localhost", nil)
 		handler := logHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			r.Context().Value(internal.LogContext).(*internal.LogCollector).Append("anything")
+			r.Context().Value(internals.LogContext).(*internals.LogCollector).Append("anything")
 			w.Header().Set("X-Test", "test")
 			w.WriteHeader(http.StatusServiceUnavailable)
 			_, err := w.Write([]byte("content"))
