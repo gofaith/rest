@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tal-tech/go-zero/core/logx"
-	"github.com/tal-tech/go-zero/core/stat"
+	"github.com/gofaith/go-zero/core/logx"
+	"github.com/gofaith/go-zero/core/stat"
 )
 
 func init() {

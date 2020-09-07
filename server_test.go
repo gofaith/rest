@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tal-tech/go-zero/rest/httpx"
-	"github.com/tal-tech/go-zero/rest/router"
+	"github.com/gofaith/go-zero/rest/httpx"
+	"github.com/gofaith/go-zero/rest/router"
 )
 
 func TestWithMiddleware(t *testing.T) {
