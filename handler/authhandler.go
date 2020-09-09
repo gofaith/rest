@@ -66,7 +66,7 @@ func Authorize(secret string, opts ...AuthorizeOption) func(http.Handler) http.H
 			ctx := r.Context()
 			for k, v := range claims {
 				switch k {
-				case jwtAudience, jwtExpire, jwtId, jwtIssuer, jwtNotBefore, jwtSubject:
+				case jwtAudience, jwtExpire, jwtId, jwtIssuer,jwtIssueAt, jwtNotBefore, jwtSubject:
 					// ignore the standard claims
 				default:
 					ctx = context.WithValue(ctx, k, v)
