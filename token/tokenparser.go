@@ -119,3 +119,19 @@ func newParser() *jwt.Parser {
 		UseJSONNumber: true,
 	}
 }
+
+
+func BuildToken(secretKey string, payloads map[string]interface{}, seconds int64) (string, error) {
+	now := time.Now().Unix()
+	claims := make(jwt.MapClaims)
+	claims["exp"] = now + seconds
+	claims["iat"] = now
+	for k, v := range payloads {
+		claims[k] = v
+	}
+
+	token := jwt.New(jwt.SigningMethodHS256)
+	token.Claims = claims
+
+	return token.SignedString([]byte(secretKey))
+}
