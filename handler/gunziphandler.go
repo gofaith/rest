@@ -22,7 +22,7 @@ func (g *gzipWriter) Write(b []byte) (int, error) {
 	return g.gw.Write(b)
 }
 func (g *gzipWriter) WriteHeader(statusCode int) {
-	g.WriteHeader(statusCode)
+	g.w.WriteHeader(statusCode)
 }
 
 func GunzipHandler(next http.Handler) http.Handler {
