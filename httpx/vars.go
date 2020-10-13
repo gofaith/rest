@@ -3,6 +3,7 @@ package httpx
 const (
 	ApplicationJson = "application/json"
 	ContentEncoding = "Content-Encoding"
+	AcceptEncoding  = "Accept-Encoding"
 	ContentSecurity = "X-Content-Security"
 	ContentType     = "Content-Type"
 	KeyField        = "key"
