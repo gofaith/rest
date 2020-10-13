@@ -38,6 +38,7 @@ func GunzipHandler(next http.Handler) http.Handler {
 		}
 
 		if strings.Contains(r.Header.Get(httpx.AcceptEncoding), gzipEncoding) {
+			w.Header().Set(httpx.ContentEncoding, gzipEncoding)
 			gw := gzip.NewWriter(w)
 			defer gw.Flush()
 			defer gw.Close()
