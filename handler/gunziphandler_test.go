@@ -9,9 +9,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/gofaith/go-zero/core/codec"
 	"github.com/gofaith/rest/httpx"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGunzipHandler(t *testing.T) {
@@ -28,9 +28,16 @@ func TestGunzipHandler(t *testing.T) {
 	req := httptest.NewRequest(http.MethodPost, "http://localhost",
 		bytes.NewReader(codec.Gzip([]byte(message))))
 	req.Header.Set(httpx.ContentEncoding, gzipEncoding)
+	req.Header.Set(httpx.AcceptEncoding, gzipEncoding)
 	resp := httptest.NewRecorder()
 	handler.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusOK, resp.Code)
+	b, e := ioutil.ReadAll(resp.Body)
+	if e != nil {
+		t.Error(e)
+		return
+	}
+	assert.Equal(t, len(b), 23)
 	wg.Wait()
 }
 
