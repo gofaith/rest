@@ -2,8 +2,10 @@ package security
 
 import (
 	"bufio"
+	"fmt"
 	"net"
 	"net/http"
+	"reflect"
 )
 
 type WithCodeResponseWriter struct {
@@ -29,5 +31,5 @@ func (w *WithCodeResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if ok {
 		return h.Hijack()
 	}
-	panic("WithCodeResponseWriter.Writer is not a http.Hijacker")
+	panic(fmt.Sprintf("WithCodeResponseWriter.Writer:%s is not a http.Hijacker", reflect.TypeOf(w.Writer).String()))
 }

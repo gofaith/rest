@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"net/http/httputil"
+	"reflect"
 	"time"
 
 	"github.com/gofaith/go-zero/core/iox"
@@ -44,7 +45,7 @@ func (w *LoggedResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if h, ok := w.w.(http.Hijacker); ok {
 		return h.Hijack()
 	}
-	panic("LoggedResponseWriter.w is not a http.Hijacker")
+	panic(fmt.Sprintf("LoggedResponseWriter.w:%s is not a http.Hijacker", reflect.TypeOf(w.w).String()))
 }
 func LogHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

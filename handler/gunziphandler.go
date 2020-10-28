@@ -3,8 +3,10 @@ package handler
 import (
 	"bufio"
 	"compress/gzip"
+	"fmt"
 	"net"
 	"net/http"
+	"reflect"
 	"strings"
 
 	"github.com/gofaith/rest/httpx"
@@ -30,7 +32,7 @@ func (g *gzipWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if h, ok := g.w.(http.Hijacker); ok {
 		return h.Hijack()
 	}
-	panic("gzipWriter.w is not a http.Hijacker")
+	panic(fmt.Sprintf("gzipWriter.w:%s is not a http.Hijacker", reflect.TypeOf(g.w).String()))
 }
 
 func GunzipHandler(next http.Handler) http.Handler {
