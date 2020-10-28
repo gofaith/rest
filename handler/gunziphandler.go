@@ -30,7 +30,7 @@ func (g *gzipWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if h, ok := g.w.(http.Hijacker); ok {
 		return h.Hijack()
 	}
-	panic("w is not a http.Hijacker")
+	panic("gzipWriter.w is not a http.Hijacker")
 }
 
 func GunzipHandler(next http.Handler) http.Handler {

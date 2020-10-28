@@ -29,5 +29,5 @@ func (w *WithCodeResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if ok {
 		return h.Hijack()
 	}
-	panic("writer is not a http.Hijacker")
+	panic("WithCodeResponseWriter.Writer is not a http.Hijacker")
 }

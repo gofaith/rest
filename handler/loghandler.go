@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"time"
@@ -38,6 +40,12 @@ func (w *LoggedResponseWriter) WriteHeader(code int) {
 	w.code = code
 }
 
+func (w *LoggedResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	if h, ok := w.w.(http.Hijacker); ok {
+		return h.Hijack()
+	}
+	panic("LoggedResponseWriter.w is not a http.Hijacker")
+}
 func LogHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		timer := utils.NewElapsedTimer()
