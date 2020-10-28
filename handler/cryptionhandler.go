@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/base64"
 	"errors"
 	"io"
 	"io/ioutil"
+	"net"
 	"net/http"
 
 	"github.com/gofaith/go-zero/core/codec"
@@ -112,4 +114,8 @@ func (w *cryptionResponseWriter) flush(key []byte) {
 	} else if n < len(content) {
 		logx.Errorf("actual bytes: %d, written bytes: %d", len(content), n)
 	}
+}
+
+func (w *cryptionResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	return w.Hijack()
 }
