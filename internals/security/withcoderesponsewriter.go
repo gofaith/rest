@@ -1,6 +1,10 @@
 package security
 
-import "net/http"
+import (
+	"bufio"
+	"net"
+	"net/http"
+)
 
 type WithCodeResponseWriter struct {
 	Writer http.ResponseWriter
@@ -18,4 +22,12 @@ func (w *WithCodeResponseWriter) Write(bytes []byte) (int, error) {
 func (w *WithCodeResponseWriter) WriteHeader(code int) {
 	w.Writer.WriteHeader(code)
 	w.Code = code
+}
+
+func (w *WithCodeResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	h, ok := w.Writer.(http.Hijacker)
+	if ok {
+		return h.Hijack()
+	}
+	panic("writer is not a http.Hijacker")
 }
