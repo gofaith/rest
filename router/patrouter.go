@@ -62,7 +62,8 @@ func (pr *PatRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	reqPath := path.Clean(r.URL.Path)
+	// reqPath := path.Clean(r.URL.Path)
+	reqPath := r.RequestURI
 	if tree, ok := pr.trees[r.Method]; ok {
 		if result, ok := tree.Search(reqPath); ok {
 			if len(result.Params) > 0 {
