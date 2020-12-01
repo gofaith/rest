@@ -9,6 +9,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/gofaith/go-zero/core/logx"
 	"github.com/gofaith/rest/httpx"
 )
 
@@ -40,6 +41,7 @@ func GunzipHandler(next http.Handler) http.Handler {
 		if strings.Contains(r.Header.Get(httpx.ContentEncoding), gzipEncoding) {
 			reader, err := gzip.NewReader(r.Body)
 			if err != nil {
+				logx.Error(err)
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
