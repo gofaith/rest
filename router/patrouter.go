@@ -23,7 +23,7 @@ var (
 type PatRouter struct {
 	prehandlers []func(w http.ResponseWriter, r *http.Request) bool
 	trees       map[string]*search.Tree
-	notFound    http.Handler
+	notFound    http.HandlerFunc
 }
 
 func NewPatRouter() *PatRouter {
@@ -82,13 +82,13 @@ func (pr *PatRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (pr *PatRouter) SetNotFoundHandler(handler http.Handler) {
+func (pr *PatRouter) SetNotFoundHandler(handler http.HandlerFunc) {
 	pr.notFound = handler
 }
 
 func (pr *PatRouter) handleNotFound(w http.ResponseWriter, r *http.Request) {
 	if pr.notFound != nil {
-		pr.notFound.ServeHTTP(w, r)
+		pr.notFound(w, r)
 	} else {
 		http.NotFound(w, r)
 	}
