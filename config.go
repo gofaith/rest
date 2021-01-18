@@ -28,9 +28,9 @@ type (
 		service.ServiceConf
 		Host     string `json:",default=0.0.0.0"`
 		Port     int
-		Verbose  bool `json:",optional"`
-		MaxConns int  `json:",default=10000"`
-		MaxBytes int64
+		Verbose  bool  `json:",optional"`
+		MaxConns int   `json:",default=10000"`
+		MaxBytes int64 `json:",optional"`
 		// milliseconds
 		Timeout      int64         `json:",optional"`
 		CpuThreshold int64         `json:",default=900,range=[0:1000]"`
