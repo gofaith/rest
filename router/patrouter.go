@@ -13,6 +13,7 @@ import (
 const (
 	allowHeader          = "Allow"
 	allowMethodSeparator = ", "
+	MethodALL            = "ALL"
 )
 
 var (
@@ -62,9 +63,19 @@ func (pr *PatRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	// reqPath := path.Clean(r.URL.Path)
-	reqPath := r.RequestURI
+	reqPath := r.URL.Path
 	if tree, ok := pr.trees[r.Method]; ok {
+		if result, ok := tree.Search(reqPath); ok {
+			if len(result.Params) > 0 {
+				r = context.WithPathVars(r, result.Params)
+			}
+			result.Item.(http.Handler).ServeHTTP(w, r)
+			return
+		}
+	}
+
+	//all
+	if tree, ok := pr.trees[MethodALL]; ok {
 		if result, ok := tree.Search(reqPath); ok {
 			if len(result.Params) > 0 {
 				r = context.WithPathVars(r, result.Params)
@@ -119,5 +130,5 @@ func validMethod(method string) bool {
 	return method == http.MethodDelete || method == http.MethodGet ||
 		method == http.MethodHead || method == http.MethodOptions ||
 		method == http.MethodPatch || method == http.MethodPost ||
-		method == http.MethodPut
+		method == http.MethodPut || method == MethodALL
 }
