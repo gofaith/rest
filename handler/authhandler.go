@@ -99,11 +99,6 @@ func detailAuthLog(r *http.Request, reason string) {
 func unauthorized(w http.ResponseWriter, r *http.Request, err error, callback UnauthorizedCallback) {
 	writer := newGuardedResponseWriter(w)
 
-	if err != nil {
-		detailAuthLog(r, err.Error())
-	} else {
-		detailAuthLog(r, noDetailReason)
-	}
 	if callback != nil {
 		callback(writer, r, err)
 	}
