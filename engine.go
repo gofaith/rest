@@ -3,9 +3,10 @@ package rest
 import (
 	"errors"
 	"fmt"
-	"github.com/gofaith/rest/internals"
 	"net/http"
 	"time"
+
+	"github.com/gofaith/rest/internals"
 
 	"github.com/gofaith/go-zero/core/codec"
 	"github.com/gofaith/go-zero/core/load"
@@ -108,11 +109,11 @@ func (s *engine) bindRoute(fr featuredRoutes, router httpx.Router, metrics *stat
 		handler.BreakerHandler(route.Method, route.Path, metrics),
 		handler.SheddingHandler(s.getShedder(fr.priority), metrics),
 		handler.TimeoutHandler(time.Duration(s.conf.Timeout)*time.Millisecond),
-		handler.RecoverHandler,
 		handler.MetricHandler(metrics),
 		handler.PromMetricHandler(route.Path),
 		handler.MaxBytesHandler(s.conf.MaxBytes),
 		handler.GunzipHandler,
+		handler.RecoverHandler,
 	)
 	chain = s.appendAuthHandler(fr, chain, verifier)
 
