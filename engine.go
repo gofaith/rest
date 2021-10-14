@@ -105,7 +105,6 @@ func (s *engine) bindRoute(fr featuredRoutes, router httpx.Router, metrics *stat
 	chain := alice.New(
 		handler.TracingHandler,
 		s.getLogHandler(),
-		handler.MaxConns(s.conf.MaxConns),
 		handler.BreakerHandler(route.Method, route.Path, metrics),
 		handler.SheddingHandler(s.getShedder(fr.priority), metrics),
 		handler.TimeoutHandler(time.Duration(s.conf.Timeout)*time.Millisecond),
