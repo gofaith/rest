@@ -11,7 +11,8 @@ import (
 
 type (
 	runOptions struct {
-		start func(*engine) error
+		start      func(*engine) error
+		startHttps func(engine *engine, cert, key string) error
 	}
 
 	RunOption func(*Server)
@@ -42,6 +43,9 @@ func NewServer(c RestConf, opts ...RunOption) (*Server, error) {
 			start: func(srv *engine) error {
 				return srv.Start()
 			},
+			startHttps: func(e *engine, cert, key string) error {
+				return e.StartHttps(cert, key)
+			},
 		},
 	}
 
@@ -68,6 +72,10 @@ func (e *Server) AddRoute(r Route, opts ...RouteOption) {
 
 func (e *Server) Start() {
 	handleError(e.opts.start(e.ngin))
+}
+
+func (e *Server) StartHttps(cert, key string) {
+	handleError(e.opts.startHttps(e.ngin, cert, key))
 }
 
 func (e *Server) Stop() {

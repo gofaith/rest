@@ -61,12 +61,24 @@ func (s *engine) Start() error {
 	return s.StartWithRouter(router.NewPatRouter())
 }
 
+func (s *engine) StartHttps(cert, key string) error {
+	return s.StartHttpsWithRouter(router.NewPatRouter(), cert, key)
+}
+
 func (s *engine) StartWithRouter(router httpx.Router) error {
 	if err := s.bindRoutes(router); err != nil {
 		return err
 	}
 
 	return internals.StartHttp(s.conf.Host, s.conf.Port, router)
+}
+
+func (s *engine) StartHttpsWithRouter(router httpx.Router, cert, key string) error {
+	if err := s.bindRoutes(router); err != nil {
+		return err
+	}
+
+	return internals.StartHttps(s.conf.Host, s.conf.Port, cert, key, router)
 }
 
 func (s *engine) appendAuthHandler(fr featuredRoutes, chain alice.Chain,
